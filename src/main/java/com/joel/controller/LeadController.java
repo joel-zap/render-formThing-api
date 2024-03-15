@@ -26,44 +26,15 @@ public class LeadController {
     // add new lead handler
     @CrossOrigin
     @PostMapping("/lead/save")
-    public ResponseEntity<String> saveLead(@Valid @RequestBody Lead lead, BindingResult result) {
-        if (result.hasErrors()) {
-            // Handle validation errors here
-            System.out.println(result);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getValidationErrors(result));
-        }
+    public ResponseEntity<String> saveLead(@RequestBody Lead lead) {
+
         if (leadService.saveLead(lead)) {
             return ResponseEntity.status(HttpStatus.OK).body("Lead Saved");
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lead not saved!!");
         }
     }
-    private String getValidationErrors(BindingResult result) {
-        // Construct error response in JSON format
-        Map<String, String> errors = new HashMap<>();
-        for (FieldError error : result.getFieldErrors()) {
-            errors.put(error.getField(), error.getDefaultMessage());
-        }
-
-        try {
-            // Serialize errors to JSON
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(errors);
-        } catch (JsonProcessingException e) {
-            // Handle JSON serialization exception
-            e.printStackTrace();
-            return "{\"error\": \"Error occurred while processing validation errors\"}";
-        }
-    }
-
-
-
-
-
-
-
-
-
+    
     // get all lead handler
     @CrossOrigin
     @GetMapping("/lead/getLeads")
