@@ -29,12 +29,13 @@ public class LeadController {
     public ResponseEntity<String> saveLead(@RequestBody Lead lead) {
 
         if (leadService.saveLead(lead)) {
-            return ResponseEntity.status(HttpStatus.OK).body("Lead Saved");
+//            return ResponseEntity.status(HttpStatus.OK).body("Lead Saved");
+            return ResponseEntity.status(HttpStatus.OK).build();
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lead not saved!!");
         }
     }
-    
+
     // get all lead handler
     @CrossOrigin
     @GetMapping("/lead/getLeads")
